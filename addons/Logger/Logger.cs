@@ -11,7 +11,11 @@ public static class Logger
         Error,
         EnterTree,
         ExitTree,
-        Ready
+        Ready,
+        World,
+        Script,
+        Quest,
+        Todo
     }
 
     public static void Log(string message, LogTypeEnum logType = LogTypeEnum.Info)
@@ -25,15 +29,24 @@ public static class Logger
                 LogTypeEnum.EnterTree => "magenta",
                 LogTypeEnum.ExitTree => "pink",
                 LogTypeEnum.Ready => "green",
+                LogTypeEnum.World => "blue",
+                LogTypeEnum.Script => "cyan",
+                LogTypeEnum.Quest => "purple",
+                LogTypeEnum.Todo => "orange",
                 _ => "gray"
             };
 
             var prefix = logType switch
             {
-                LogTypeEnum.Warning => "(!)",
-                LogTypeEnum.Error => "!",
+                LogTypeEnum.Warning => "⚠️",
+                LogTypeEnum.Error => "🛑",
                 LogTypeEnum.EnterTree => ">",
                 LogTypeEnum.ExitTree => "<",
+                LogTypeEnum.Ready => "✔️",
+                LogTypeEnum.World => "🌍",
+                LogTypeEnum.Script => "🗒️",
+                LogTypeEnum.Quest => "📜",
+                LogTypeEnum.Todo => "📝TODO: ",
                 _ => ""
             };
 
