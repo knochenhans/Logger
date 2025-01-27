@@ -15,7 +15,8 @@ public static class Logger
         World,
         Script,
         Quest,
-        Todo
+        Todo,
+        Character
     }
 
     public static void Log(string message, LogTypeEnum logType = LogTypeEnum.Info)
@@ -33,6 +34,7 @@ public static class Logger
                 LogTypeEnum.Script => "cyan",
                 LogTypeEnum.Quest => "purple",
                 LogTypeEnum.Todo => "orange",
+                LogTypeEnum.Character => "gray",
                 _ => "gray"
             };
 
@@ -47,6 +49,7 @@ public static class Logger
                 LogTypeEnum.Script => "🗒️",
                 LogTypeEnum.Quest => "📜",
                 LogTypeEnum.Todo => "📝TODO: ",
+                LogTypeEnum.Character => "👤",
                 _ => ""
             };
 
