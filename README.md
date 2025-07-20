@@ -4,11 +4,7 @@ This is a simple logging utility for Godot 4, designed to help with debugging an
 
 ## Features
 
-- **Debug Mode**: Enable or disable logging globally.
-- **Log Types**: Different log types with distinct colors and prefixes.
-    - Info
-    - Warning
-    - Error
+- **Log Types**: Different log types with distinct colors and prefixes, for example:
     - EnterTree
     - ExitTree
     - Ready
@@ -16,3 +12,4 @@ This is a simple logging utility for Godot 4, designed to help with debugging an
     - Script
     - Quest
     - Todo
+- **Log Levels**: Each log type can be set to a specific level, allowing you to filter logs based on their importance.

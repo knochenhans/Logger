@@ -2,13 +2,11 @@ using Godot;
 
 public static class Logger
 {
-    public static bool DebugMode { get; set; } = true;
+    public static LogLevelEnum AppliedLogLevelThreshold { get; set; } = LogLevelEnum.Info;
 
     public enum LogTypeEnum
     {
-        Info,
-        Warning,
-        Error,
+        None,
         EnterTree,
         ExitTree,
         Ready,
@@ -16,44 +14,96 @@ public static class Logger
         Script,
         Quest,
         Todo,
-        Character
+        Character,
+        Entity,
+        Component,
+        State,
+        Graphics,
+        Audio,
+        UI,
+        Input
     }
 
-    public static void Log(string message, LogTypeEnum logType = LogTypeEnum.Info)
+    public enum LogLevelEnum
     {
-        if (DebugMode)
+        Info,
+        Warning,
+        Error,
+        Critical
+    }
+
+    public static void Log(string message, LogTypeEnum logType = LogTypeEnum.None, LogLevelEnum logLevel = LogLevelEnum.Info)
+    {
+        Log(message, "", logType, logLevel);
+    }
+
+    public static void Log(string message, string userPrefix = "", LogTypeEnum logType = LogTypeEnum.None, LogLevelEnum logLevel = LogLevelEnum.Info)
+    {
+        if (logLevel < AppliedLogLevelThreshold) return;
+
+        var (typeColor, typeSymbol) = logType switch
         {
-            var color = logType switch
-            {
-                LogTypeEnum.Warning => "yellow",
-                LogTypeEnum.Error => "red",
-                LogTypeEnum.EnterTree => "magenta",
-                LogTypeEnum.ExitTree => "pink",
-                LogTypeEnum.Ready => "green",
-                LogTypeEnum.World => "blue",
-                LogTypeEnum.Script => "cyan",
-                LogTypeEnum.Quest => "purple",
-                LogTypeEnum.Todo => "orange",
-                LogTypeEnum.Character => "gray",
-                _ => "gray"
-            };
+            LogTypeEnum.EnterTree => ("magenta", ">"),
+            LogTypeEnum.ExitTree => ("pink", "<"),
+            LogTypeEnum.Ready => ("green", "✔️"),
+            LogTypeEnum.World => ("blue", "🌍"),
+            LogTypeEnum.Script => ("cyan", "🗒️"),
+            LogTypeEnum.Quest => ("purple", "📜"),
+            LogTypeEnum.Todo => ("orange", "📝TODO: "),
+            LogTypeEnum.Character => ("gray", "👤"),
+            LogTypeEnum.Entity => ("brown", "👾"),
+            LogTypeEnum.Component => ("teal", "🛠️"),
+            LogTypeEnum.State => ("lightblue", "🔄"),
+            LogTypeEnum.Graphics => ("crimson", "🎨"),
+            LogTypeEnum.Audio => ("turquoise", "🔊"),
+            LogTypeEnum.UI => ("pink", "🖥️"),
+            LogTypeEnum.Input => ("lime", "🕹️"),
+            _ => ("gray", "")
+        };
 
-            var prefix = logType switch
-            {
-                LogTypeEnum.Warning => "⚠️",
-                LogTypeEnum.Error => "🛑",
-                LogTypeEnum.EnterTree => ">",
-                LogTypeEnum.ExitTree => "<",
-                LogTypeEnum.Ready => "✔️",
-                LogTypeEnum.World => "🌍",
-                LogTypeEnum.Script => "🗒️",
-                LogTypeEnum.Quest => "📜",
-                LogTypeEnum.Todo => "📝TODO: ",
-                LogTypeEnum.Character => "👤",
-                _ => ""
-            };
+        var (levelColor, levelSymbol) = logLevel switch
+        {
+            LogLevelEnum.Warning => ("yellow", "⚠️"),
+            LogLevelEnum.Error => ("orange", "❗"),
+            LogLevelEnum.Critical => ("red", "🔥"),
+            _ => ("gray", "")
+        };
 
-            GD.PrintRich($"[color={color}]{prefix} {message}[/color]");
-        }
+        string prefix = typeSymbol;
+        if (logLevel == LogLevelEnum.Warning || logLevel == LogLevelEnum.Error || logLevel == LogLevelEnum.Critical)
+            prefix = $"{levelSymbol}{typeSymbol}";
+
+        string userPrefixPart = string.IsNullOrEmpty(userPrefix) ? "" : $"[color={levelColor}]{userPrefix}:[/color] ";
+        GD.PrintRich($"{prefix} {userPrefixPart}[color={typeColor}]{message}[/color]");
+    }
+
+    public static void LogWarning(string message, string userPrefix = "", LogTypeEnum logType = LogTypeEnum.None)
+    {
+        Log(message, userPrefix, logType, LogLevelEnum.Warning);
+    }
+
+    public static void LogWarning(string message, LogTypeEnum logType = LogTypeEnum.None)
+    {
+        Log(message, "", logType, LogLevelEnum.Warning);
+    }
+
+    public static void LogError(string message, string userPrefix = "", LogTypeEnum logType = LogTypeEnum.None)
+    {
+        Log(message, userPrefix, logType, LogLevelEnum.Error);
+    }
+
+    public static void LogError(string message, LogTypeEnum logType = LogTypeEnum.None)
+    {
+        Log(message, "", logType, LogLevelEnum.Error);
+    }
+
+    public static void LogCritical(string message, string userPrefix = "", LogTypeEnum logType = LogTypeEnum.None)
+    {
+        Log(message, userPrefix, logType, LogLevelEnum.Critical);
+    }
+
+    public static void LogCritical(string message, LogTypeEnum logType = LogTypeEnum.None)
+    {
+        Log(message, "", logType, LogLevelEnum.Critical);
     }
 }
