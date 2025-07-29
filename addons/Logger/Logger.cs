@@ -2,7 +2,16 @@ using Godot;
 
 public static class Logger
 {
-    public static LogLevelEnum AppliedLogLevelThreshold { get; set; } = LogLevelEnum.Info;
+    private static LogLevelEnum _appliedLogLevelThreshold = LogLevelEnum.Info;
+    public static LogLevelEnum AppliedLogLevelThreshold
+    {
+        get => _appliedLogLevelThreshold;
+        set
+        {
+            Log($"Log level threshold set to: {value}", LogTypeEnum.Framework, LogLevelEnum.Info);
+            _appliedLogLevelThreshold = value;
+        }
+    }
 
     public enum LogTypeEnum
     {
@@ -21,7 +30,8 @@ public static class Logger
         Graphics,
         Audio,
         UI,
-        Input
+        Input,
+        Framework
     }
 
     public enum LogLevelEnum
@@ -52,12 +62,13 @@ public static class Logger
             LogTypeEnum.Todo => ("orange", "📝TODO: "),
             LogTypeEnum.Character => ("gray", "👤"),
             LogTypeEnum.Entity => ("brown", "👾"),
-            LogTypeEnum.Component => ("teal", "🛠️"),
+            LogTypeEnum.Component => ("teal", "🧩"),
             LogTypeEnum.State => ("lightblue", "🔄"),
             LogTypeEnum.Graphics => ("crimson", "🎨"),
             LogTypeEnum.Audio => ("turquoise", "🔊"),
             LogTypeEnum.UI => ("pink", "🖥️"),
             LogTypeEnum.Input => ("lime", "🕹️"),
+            LogTypeEnum.Framework => ("blue", "⚙️"),
             _ => ("gray", "")
         };
 
