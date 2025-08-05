@@ -53,15 +53,15 @@ public static class Logger
 
         var (typeColor, typeSymbol) = logType switch
         {
-            LogTypeEnum.EnterTree => ("magenta", ">"),
-            LogTypeEnum.ExitTree => ("pink", "<"),
+            LogTypeEnum.EnterTree => ("magenta", "🔼"),
+            LogTypeEnum.ExitTree => ("pink", "🔽"),
             LogTypeEnum.Ready => ("green", "✔️"),
             LogTypeEnum.World => ("blue", "🌍"),
             LogTypeEnum.Script => ("cyan", "🗒️"),
             LogTypeEnum.Quest => ("purple", "📜"),
             LogTypeEnum.Todo => ("orange", "📝TODO: "),
             LogTypeEnum.Character => ("gray", "👤"),
-            LogTypeEnum.Entity => ("brown", "👾"),
+            LogTypeEnum.Entity => ("fuchsia", "👾"),
             LogTypeEnum.Component => ("teal", "🧩"),
             LogTypeEnum.State => ("lightblue", "🔄"),
             LogTypeEnum.Graphics => ("crimson", "🎨"),
